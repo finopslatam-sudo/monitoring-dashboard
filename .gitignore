@@ -1,0 +1,30 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
+terraform.tfstate
+
+# AWS credentials
+terraform.tfvars
+*.tfvars
+.aws/
+credentials
+
+# Scripts temporales
+set_env.sh
+*.sh
+
+# Logs
+*.log
+*.tmp
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
