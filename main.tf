@@ -26,8 +26,8 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "RunningInstances", {"label": "Instancias EMR Activas"}],
-            ["AWS/ElasticMapReduce", "MemoryUtilization", {"label": "Memoria Utilizada %", "yAxis": "right"}]
+            ["AWS/ElasticMapReduce", "RunningInstances", { "label" : "Instancias EMR Activas" }],
+            ["AWS/ElasticMapReduce", "MemoryUtilization", { "label" : "Memoria Utilizada %", "yAxis" : "right" }]
           ]
           period = 300
           stat   = "Average"
@@ -36,12 +36,12 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
           view   = "timeSeries"
           yAxis = {
             left = {
-              min = 0,
+              min   = 0,
               label = "Instancias"
             },
             right = {
-              min = 0,
-              max = 100,
+              min   = 0,
+              max   = 100,
               label = "% Memoria"
             }
           }
@@ -58,9 +58,9 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "CPUUtilization", {"label": "CPU %"}],
-            ["AWS/EC2", "NetworkIn", {"label": "Network In", "yAxis": "right"}],
-            ["AWS/EC2", "NetworkOut", {"label": "Network Out", "yAxis": "right"}]
+            ["AWS/EC2", "CPUUtilization", { "label" : "CPU %" }],
+            ["AWS/EC2", "NetworkIn", { "label" : "Network In", "yAxis" : "right" }],
+            ["AWS/EC2", "NetworkOut", { "label" : "Network Out", "yAxis" : "right" }]
           ]
           period = 300
           stat   = "Average"
@@ -69,12 +69,12 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
           view   = "timeSeries"
           yAxis = {
             left = {
-              min = 0,
-              max = 100,
+              min   = 0,
+              max   = 100,
               label = "% CPU"
             },
             right = {
-              min = 0,
+              min   = 0,
               label = "Bytes"
             }
           }
@@ -91,15 +91,15 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "AppsRunning", {"label": "Apps Running"}],
-            ["AWS/ElasticMapReduce", "AppsPending", {"label": "Apps Pending"}],
-            ["AWS/ElasticMapReduce", "AppsCompleted", {"label": "Apps Completed"}]
+            ["AWS/ElasticMapReduce", "AppsRunning", { "label" : "Apps Running" }],
+            ["AWS/ElasticMapReduce", "AppsPending", { "label" : "Apps Pending" }],
+            ["AWS/ElasticMapReduce", "AppsCompleted", { "label" : "Apps Completed" }]
           ]
-          period = 300
-          stat   = "Sum"
-          region = "us-east-1"
-          title  = "📊 EMR - Estado de Aplicaciones"
-          view   = "timeSeries"
+          period  = 300
+          stat    = "Sum"
+          region  = "us-east-1"
+          title   = "📊 EMR - Estado de Aplicaciones"
+          view    = "timeSeries"
           stacked = false
         }
       },
@@ -114,10 +114,10 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "DiskReadBytes", {"label": "Disk Read"}],
-            ["AWS/EC2", "DiskWriteBytes", {"label": "Disk Write"}],
-            ["AWS/EC2", "DiskReadOps", {"label": "Read Ops", "yAxis": "right"}],
-            ["AWS/EC2", "DiskWriteOps", {"label": "Write Ops", "yAxis": "right"}]
+            ["AWS/EC2", "DiskReadBytes", { "label" : "Disk Read" }],
+            ["AWS/EC2", "DiskWriteBytes", { "label" : "Disk Write" }],
+            ["AWS/EC2", "DiskReadOps", { "label" : "Read Ops", "yAxis" : "right" }],
+            ["AWS/EC2", "DiskWriteOps", { "label" : "Write Ops", "yAxis" : "right" }]
           ]
           period = 300
           stat   = "Average"
@@ -126,11 +126,11 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
           view   = "timeSeries"
           yAxis = {
             left = {
-              min = 0,
+              min   = 0,
               label = "Bytes"
             },
             right = {
-              min = 0,
+              min   = 0,
               label = "Operaciones"
             }
           }
@@ -147,15 +147,15 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "ContainerAllocated", {"label": "Containers Alloc"}],
-            ["AWS/ElasticMapReduce", "ContainerReserved", {"label": "Containers Reserved"}],
-            ["AWS/ElasticMapReduce", "ContainerPending", {"label": "Containers Pending"}]
+            ["AWS/ElasticMapReduce", "ContainerAllocated", { "label" : "Containers Alloc" }],
+            ["AWS/ElasticMapReduce", "ContainerReserved", { "label" : "Containers Reserved" }],
+            ["AWS/ElasticMapReduce", "ContainerPending", { "label" : "Containers Pending" }]
           ]
-          period = 300
-          stat   = "Sum"
-          region = "us-east-1"
-          title  = "📦 EMR - Utilización de Containers"
-          view   = "timeSeries"
+          period  = 300
+          stat    = "Sum"
+          region  = "us-east-1"
+          title   = "📦 EMR - Utilización de Containers"
+          view    = "timeSeries"
           stacked = false
         }
       },
@@ -196,7 +196,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "CPUUtilization", {"label": "Avg CPU %"}]
+            ["AWS/EC2", "CPUUtilization", { "label" : "Avg CPU %" }]
           ]
           period = 300
           stat   = "Average"
@@ -215,7 +215,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "MemoryUtilization", {"label": "Avg Memory %"}]
+            ["AWS/ElasticMapReduce", "MemoryUtilization", { "label" : "Avg Memory %" }]
           ]
           period = 300
           stat   = "Average"
@@ -234,7 +234,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "RunningInstances", {"label": "Instancias Activas"}]
+            ["AWS/ElasticMapReduce", "RunningInstances", { "label" : "Instancias Activas" }]
           ]
           period = 300
           stat   = "Maximum"
@@ -253,7 +253,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "StatusCheckFailed", {"label": "Failed Status Checks"}]
+            ["AWS/EC2", "StatusCheckFailed", { "label" : "Failed Status Checks" }]
           ]
           period = 300
           stat   = "Sum"
