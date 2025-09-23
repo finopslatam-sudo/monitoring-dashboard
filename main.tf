@@ -12,11 +12,11 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         height = 3
 
         properties = {
-          markdown = "# 📋 Dashboard de Monitoreo - EMR & EC2\n## 🎯 Objetivo: Optimización de recursos\n### 💰 Métricas de utilización (GRATIS)"
+          markdown = "# 📋 Dashboard de Monitoreo GRATIS\n## 🎯 Objetivo: Optimización de recursos\n### 💰 Métricas dentro del Free Tier de AWS"
         }
       },
 
-      # ==================== UTILIZACIÓN EMR ====================
+      # ==================== CONSUMO S3 (GRATIS) ====================
       {
         type   = "metric"
         x      = 0
@@ -26,29 +26,28 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "RunningInstances", { "label" : "Instancias EMR Activas" }],
-            ["AWS/ElasticMapReduce", "MemoryUtilization", { "label" : "Memoria Utilizada %", "yAxis" : "right" }]
+            ["AWS/S3", "NumberOfObjects", { "label": "Total Objetos", "period": 86400 }],
+            ["AWS/S3", "BucketSizeBytes", { "label": "Tamaño Bucket (MB)", "period": 86400, "yAxis": "right" }]
           ]
-          period = 300
+          period = 86400  # 1 día - menos datos, menos costo
           stat   = "Average"
           region = "us-east-1"
-          title  = "🔍 EMR - Utilización de Recursos"
+          title  = "📊 S3 - Consumo (Métricas Diarias)"
           view   = "timeSeries"
           yAxis = {
             left = {
               min   = 0,
-              label = "Instancias"
+              label = "Número Objetos"
             },
             right = {
               min   = 0,
-              max   = 100,
-              label = "% Memoria"
+              label = "Bytes"
             }
           }
         }
       },
 
-      # ==================== UTILIZACIÓN EC2 ====================
+      # ==================== OPERACIONES S3 (GRATIS) ====================
       {
         type   = "metric"
         x      = 12
@@ -58,11 +57,33 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "CPUUtilization", { "label" : "CPU %" }],
-            ["AWS/EC2", "NetworkIn", { "label" : "Network In", "yAxis" : "right" }],
-            ["AWS/EC2", "NetworkOut", { "label" : "Network Out", "yAxis" : "right" }]
+            ["AWS/S3", "GetRequests", { "label": "GET Requests" }],
+            ["AWS/S3", "PutRequests", { "label": "PUT Requests" }]
           ]
-          period = 300
+          period = 3600  # 1 hora - balance entre detalle y costo
+          stat   = "Sum"
+          region = "us-east-1"
+          title  = "🔁 S3 - Operaciones Principales"
+          view   = "timeSeries"
+          stacked = false
+        }
+      },
+
+      # ==================== UTILIZACIÓN EC2 (GRATIS) ====================
+      {
+        type   = "metric"
+        x      = 0
+        y      = 9
+        width  = 12
+        height = 6
+
+        properties = {
+          metrics = [
+            ["AWS/EC2", "CPUUtilization", { "label": "CPU %" }],
+            ["AWS/EC2", "NetworkIn", { "label": "Network In", "yAxis": "right" }],
+            ["AWS/EC2", "NetworkOut", { "label": "Network Out", "yAxis": "right" }]
+          ]
+          period = 300  # 5 minutos - estándar gratis
           stat   = "Average"
           region = "us-east-1"
           title  = "⚡ EC2 - Métricas de Performance"
@@ -81,124 +102,150 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== ESTADO INSTANCIAS EMR ====================
+      # ==================== DISCO EC2 (GRATIS) ====================
       {
         type   = "metric"
-        x      = 0
+        x      = 12
         y      = 9
-        width  = 8
+        width  = 12
         height = 6
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "AppsRunning", { "label" : "Apps Running" }],
-            ["AWS/ElasticMapReduce", "AppsPending", { "label" : "Apps Pending" }],
-            ["AWS/ElasticMapReduce", "AppsCompleted", { "label" : "Apps Completed" }]
+            ["AWS/EC2", "DiskReadBytes", { "label": "Disk Read" }],
+            ["AWS/EC2", "DiskWriteBytes", { "label": "Disk Write" }]
           ]
-          period  = 300
-          stat    = "Sum"
-          region  = "us-east-1"
-          title   = "📊 EMR - Estado de Aplicaciones"
-          view    = "timeSeries"
-          stacked = false
-        }
-      },
-
-      # ==================== DISCO EC2 ====================
-      {
-        type   = "metric"
-        x      = 8
-        y      = 9
-        width  = 8
-        height = 6
-
-        properties = {
-          metrics = [
-            ["AWS/EC2", "DiskReadBytes", { "label" : "Disk Read" }],
-            ["AWS/EC2", "DiskWriteBytes", { "label" : "Disk Write" }],
-            ["AWS/EC2", "DiskReadOps", { "label" : "Read Ops", "yAxis" : "right" }],
-            ["AWS/EC2", "DiskWriteOps", { "label" : "Write Ops", "yAxis" : "right" }]
-          ]
-          period = 300
+          period = 300  # 5 minutos - gratis
           stat   = "Average"
           region = "us-east-1"
           title  = "💾 EC2 - Actividad de Disco"
           view   = "timeSeries"
+          stacked = false
+        }
+      },
+
+      # ==================== UTILIZACIÓN EMR (GRATIS) ====================
+      {
+        type   = "metric"
+        x      = 0
+        y      = 15
+        width  = 8
+        height = 6
+
+        properties = {
+          metrics = [
+            ["AWS/ElasticMapReduce", "RunningInstances", { "label": "Instancias Activas" }],
+            ["AWS/ElasticMapReduce", "MemoryUtilization", { "label": "Memoria %", "yAxis": "right" }]
+          ]
+          period = 300  # 5 minutos
+          stat   = "Average"
+          region = "us-east-1"
+          title  = "🔍 EMR - Utilización"
+          view   = "timeSeries"
           yAxis = {
             left = {
               min   = 0,
-              label = "Bytes"
+              label = "Instancias"
             },
             right = {
               min   = 0,
-              label = "Operaciones"
+              max   = 100,
+              label = "% Memoria"
             }
           }
         }
       },
 
-      # ==================== RESUMEN EMR ====================
+      # ==================== ESTADO EMR (GRATIS) ====================
       {
         type   = "metric"
-        x      = 16
-        y      = 9
+        x      = 8
+        y      = 15
         width  = 8
         height = 6
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "ContainerAllocated", { "label" : "Containers Alloc" }],
-            ["AWS/ElasticMapReduce", "ContainerReserved", { "label" : "Containers Reserved" }],
-            ["AWS/ElasticMapReduce", "ContainerPending", { "label" : "Containers Pending" }]
+            ["AWS/ElasticMapReduce", "AppsRunning", { "label": "Apps Running" }],
+            ["AWS/ElasticMapReduce", "AppsPending", { "label": "Apps Pending" }]
           ]
-          period  = 300
-          stat    = "Sum"
-          region  = "us-east-1"
-          title   = "📦 EMR - Utilización de Containers"
-          view    = "timeSeries"
+          period = 300
+          stat   = "Sum"
+          region = "us-east-1"
+          title  = "📊 EMR - Estado Apps"
+          view   = "timeSeries"
           stacked = false
         }
       },
 
-      # ==================== PANEL DE RECOMENDACIONES ====================
-      {
-        type   = "text"
-        x      = 0
-        y      = 15
-        width  = 12
-        height = 4
-
-        properties = {
-          markdown = "## 💡 Recomendaciones de Optimización\n- ⏰ **Scale down EMR** en horarios no laborales\n- 💾 **Clean temporary files** weekly\n- 📊 **Monitor memory usage** para right-sizing\n- 🔄 **Use spot instances** para workloads flexibles"
-        }
-      },
-
-      # ==================== MÉTRICAS CLAVE ====================
-      {
-        type   = "text"
-        x      = 12
-        y      = 15
-        width  = 12
-        height = 4
-
-        properties = {
-          markdown = "## 🎯 Métricas Clave a Monitorear\n- 🟢 **CPU < 70%** - Buen uso de recursos\n- 🟡 **CPU 70-85%** - Considerar scaling\n- 🔴 **CPU > 85%** - Necesita scaling urgente\n- 💾 **Memory > 90%** - Optimizar aplicaciones"
-        }
-      },
-
-      # ==================== SINGLE VALUE METRICS ====================
+      # ==================== RESUMEN S3 (GRATIS) ====================
       {
         type   = "metric"
-        x      = 0
-        y      = 19
-        width  = 6
+        x      = 16
+        y      = 15
+        width  = 8
         height = 6
 
         properties = {
           metrics = [
-            ["AWS/EC2", "CPUUtilization", { "label" : "Avg CPU %" }]
+            ["AWS/S3", "BucketSizeBytes", { "label": "Tamaño Actual", "period": 86400 }]
           ]
-          period = 300
+          period = 86400
+          stat   = "Average"
+          region = "us-east-1"
+          title  = "💽 S3 - Almacenamiento"
+          view   = "singleValue"
+          annotations = {
+            horizontal = [
+              {
+                color = "#1f78b4"
+                label = "Límite Free: 5GB"
+                value = 5368709120  # 5GB en bytes
+              }
+            ]
+          }
+        }
+      },
+
+      # ==================== PANEL OPTIMIZACIÓN GRATIS ====================
+      {
+        type   = "text"
+        x      = 0
+        y      = 21
+        width  = 12
+        height = 4
+
+        properties = {
+          markdown = "## 💡 Optimización Free Tier\n- ⏰ **Apagar instancias** cuando no se usen\n- 💾 **S3 Lifecycle** para archivos antiguos\n- 📊 **Métricas cada 5min** para ahorro\n- 🔄 **Periodos largos** en S3 (24h)\n- 🚫 **Evitar métricas premium**"
+        }
+      },
+
+      # ==================== LÍMITES FREE TIER ====================
+      {
+        type   = "text"
+        x      = 12
+        y      = 21
+        width  = 12
+        height = 4
+
+        properties = {
+          markdown = "## 🎯 Límites Free Tier (Mensual)\n- 📊 **10 métricas custom**\n- ⏰ **1M solicitudes API**\n- 💾 **5GB S3 Standard**\n- 🖥️ **750h EC2 t2/t3.micro**\n- 📈 **Alarms básicos** incluidos"
+        }
+      },
+
+      # ==================== SINGLE VALUE METRICS (GRATIS) ====================
+      {
+        type   = "metric"
+        x      = 0
+        y      = 25
+        width  = 4
+        height = 6
+
+        properties = {
+          metrics = [
+            ["AWS/EC2", "CPUUtilization", { "label": "CPU Avg %" }]
+          ]
+          period = 3600  # 1 hora para ahorrar
           stat   = "Average"
           region = "us-east-1"
           title  = "📈 CPU Promedio"
@@ -208,19 +255,38 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
       {
         type   = "metric"
-        x      = 6
-        y      = 19
-        width  = 6
+        x      = 4
+        y      = 25
+        width  = 4
         height = 6
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "MemoryUtilization", { "label" : "Avg Memory %" }]
+            ["AWS/S3", "NumberOfObjects", { "label": "Total Objetos", "period": 86400 }]
           ]
-          period = 300
+          period = 86400
           stat   = "Average"
           region = "us-east-1"
-          title  = "📊 Memoria Promedio"
+          title  = "📁 Objetos S3"
+          view   = "singleValue"
+        }
+      },
+
+      {
+        type   = "metric"
+        x      = 8
+        y      = 25
+        width  = 4
+        height = 6
+
+        properties = {
+          metrics = [
+            ["AWS/ElasticMapReduce", "RunningInstances", { "label": "Instancias EMR" }]
+          ]
+          period = 3600
+          stat   = "Maximum"
+          region = "us-east-1"
+          title  = "🖥️ EMR Activas"
           view   = "singleValue"
         }
       },
@@ -228,37 +294,56 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
       {
         type   = "metric"
         x      = 12
-        y      = 19
-        width  = 6
+        y      = 25
+        width  = 4
         height = 6
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "RunningInstances", { "label" : "Instancias Activas" }]
+            ["AWS/EC2", "StatusCheckFailed", { "label": "Checks Fallidos" }]
           ]
-          period = 300
-          stat   = "Maximum"
+          period = 3600
+          stat   = "Sum"
           region = "us-east-1"
-          title  = "🖥️ Instancias EMR"
+          title  = "❌ EC2 Status"
           view   = "singleValue"
         }
       },
 
       {
         type   = "metric"
-        x      = 18
-        y      = 19
-        width  = 6
+        x      = 16
+        y      = 25
+        width  = 4
         height = 6
 
         properties = {
           metrics = [
-            ["AWS/EC2", "StatusCheckFailed", { "label" : "Failed Status Checks" }]
+            ["AWS/S3", "GetRequests", { "label": "GET Requests/hora" }]
           ]
-          period = 300
+          period = 3600
           stat   = "Sum"
           region = "us-east-1"
-          title  = "❌ Checks Fallidos"
+          title  = "🔍 S3 GETs"
+          view   = "singleValue"
+        }
+      },
+
+      {
+        type   = "metric"
+        x      = 20
+        y      = 25
+        width  = 4
+        height = 6
+
+        properties = {
+          metrics = [
+            ["AWS/EC2", "NetworkOut", { "label": "Network Out" }]
+          ]
+          period = 3600
+          stat   = "Sum"
+          region = "us-east-1"
+          title  = "📤 Salida Red"
           view   = "singleValue"
         }
       }
