@@ -3,7 +3,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
   dashboard_body = jsonencode({
     widgets = [
-      # ==================== PANEL INFORMATIVO ====================
+      # ==================== PANEL INFORMATIVO ==================
       {
         type   = "text"
         x      = 0
@@ -16,7 +16,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== CONSUMO S3 (GRATIS) ====================
+      # ==================== CONSUMO S3 (GRATIS) ==================
       {
         type   = "metric"
         x      = 0
@@ -47,7 +47,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== OPERACIONES S3 (GRATIS) ====================
+      # ==================== OPERACIONES S3 (GRATIS) ==================
       {
         type   = "metric"
         x      = 12
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== UTILIZACIÓN EC2 (GRATIS) ====================
+      # ==================== UTILIZACIÓN EC2 (GRATIS) ==================
       {
         type   = "metric"
         x      = 0
