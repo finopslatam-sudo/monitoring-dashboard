@@ -26,10 +26,10 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/S3", "NumberOfObjects", { "label": "Total Objetos", "period": 86400 }],
-            ["AWS/S3", "BucketSizeBytes", { "label": "Tamaño Bucket (MB)", "period": 86400, "yAxis": "right" }]
+            ["AWS/S3", "NumberOfObjects", { "label" : "Total Objetos", "period" : 86400 }],
+            ["AWS/S3", "BucketSizeBytes", { "label" : "Tamaño Bucket (MB)", "period" : 86400, "yAxis" : "right" }]
           ]
-          period = 86400  # 1 día - menos datos, menos costo
+          period = 86400 # 1 día - menos datos, menos costo
           stat   = "Average"
           region = "us-east-1"
           title  = "📊 S3 - Consumo (Métricas Diarias)"
@@ -57,14 +57,14 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/S3", "GetRequests", { "label": "GET Requests" }],
-            ["AWS/S3", "PutRequests", { "label": "PUT Requests" }]
+            ["AWS/S3", "GetRequests", { "label" : "GET Requests" }],
+            ["AWS/S3", "PutRequests", { "label" : "PUT Requests" }]
           ]
-          period = 3600  # 1 hora - balance entre detalle y costo
-          stat   = "Sum"
-          region = "us-east-1"
-          title  = "🔁 S3 - Operaciones Principales"
-          view   = "timeSeries"
+          period  = 3600 # 1 hora - balance entre detalle y costo
+          stat    = "Sum"
+          region  = "us-east-1"
+          title   = "🔁 S3 - Operaciones Principales"
+          view    = "timeSeries"
           stacked = false
         }
       },
@@ -79,11 +79,11 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "CPUUtilization", { "label": "CPU %" }],
-            ["AWS/EC2", "NetworkIn", { "label": "Network In", "yAxis": "right" }],
-            ["AWS/EC2", "NetworkOut", { "label": "Network Out", "yAxis": "right" }]
+            ["AWS/EC2", "CPUUtilization", { "label" : "CPU %" }],
+            ["AWS/EC2", "NetworkIn", { "label" : "Network In", "yAxis" : "right" }],
+            ["AWS/EC2", "NetworkOut", { "label" : "Network Out", "yAxis" : "right" }]
           ]
-          period = 300  # 5 minutos - estándar
+          period = 300 # 5 minutos - estándar
           stat   = "Average"
           region = "us-east-1"
           title  = "⚡ EC2 - Métricas de Performance"
@@ -112,14 +112,14 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "DiskReadBytes", { "label": "Disk Read" }],
-            ["AWS/EC2", "DiskWriteBytes", { "label": "Disk Write" }]
+            ["AWS/EC2", "DiskReadBytes", { "label" : "Disk Read" }],
+            ["AWS/EC2", "DiskWriteBytes", { "label" : "Disk Write" }]
           ]
-          period = 300  # 5 minutos
-          stat   = "Average"
-          region = "us-east-1"
-          title  = "💾 EC2 - Actividad de Disco"
-          view   = "timeSeries"
+          period  = 300 # 5 minutos
+          stat    = "Average"
+          region  = "us-east-1"
+          title   = "💾 EC2 - Actividad de Disco"
+          view    = "timeSeries"
           stacked = false
         }
       },
@@ -134,10 +134,10 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "RunningInstances", { "label": "Instancias Activas" }],
-            ["AWS/ElasticMapReduce", "MemoryUtilization", { "label": "Memoria %", "yAxis": "right" }]
+            ["AWS/ElasticMapReduce", "RunningInstances", { "label" : "Instancias Activas" }],
+            ["AWS/ElasticMapReduce", "MemoryUtilization", { "label" : "Memoria %", "yAxis" : "right" }]
           ]
-          period = 300  # 5 minutos
+          period = 300 # 5 minutos
           stat   = "Average"
           region = "us-east-1"
           title  = "🔍 EMR - Utilización"
@@ -166,14 +166,14 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "AppsRunning", { "label": "Apps Running" }],
-            ["AWS/ElasticMapReduce", "AppsPending", { "label": "Apps Pending" }]
+            ["AWS/ElasticMapReduce", "AppsRunning", { "label" : "Apps Running" }],
+            ["AWS/ElasticMapReduce", "AppsPending", { "label" : "Apps Pending" }]
           ]
-          period = 300
-          stat   = "Sum"
-          region = "us-east-1"
-          title  = "📊 EMR - Estado Apps"
-          view   = "timeSeries"
+          period  = 300
+          stat    = "Sum"
+          region  = "us-east-1"
+          title   = "📊 EMR - Estado Apps"
+          view    = "timeSeries"
           stacked = false
         }
       },
@@ -188,7 +188,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/S3", "BucketSizeBytes", { "label": "Tamaño Actual", "period": 86400 }]
+            ["AWS/S3", "BucketSizeBytes", { "label" : "Tamaño Actual", "period" : 86400 }]
           ]
           period = 86400
           stat   = "Average"
@@ -200,7 +200,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
               {
                 color = "#1f78b4"
                 label = "Límite Free: 5GB"
-                value = 5368709120  # 5GB en bytes
+                value = 5368709120 # 5GB en bytes
               }
             ]
           }
@@ -243,9 +243,9 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "CPUUtilization", { "label": "CPU Avg %" }]
+            ["AWS/EC2", "CPUUtilization", { "label" : "CPU Avg %" }]
           ]
-          period = 3600  # 1 hora para ahorrar
+          period = 3600 # 1 hora para ahorrar
           stat   = "Average"
           region = "us-east-1"
           title  = "📈 CPU Promedio"
@@ -262,7 +262,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/S3", "NumberOfObjects", { "label": "Total Objetos", "period": 86400 }]
+            ["AWS/S3", "NumberOfObjects", { "label" : "Total Objetos", "period" : 86400 }]
           ]
           period = 86400
           stat   = "Average"
@@ -281,7 +281,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/ElasticMapReduce", "RunningInstances", { "label": "Instancias EMR" }]
+            ["AWS/ElasticMapReduce", "RunningInstances", { "label" : "Instancias EMR" }]
           ]
           period = 3600
           stat   = "Maximum"
@@ -300,7 +300,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "StatusCheckFailed", { "label": "Checks Fallidos" }]
+            ["AWS/EC2", "StatusCheckFailed", { "label" : "Checks Fallidos" }]
           ]
           period = 3600
           stat   = "Sum"
@@ -319,7 +319,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/S3", "GetRequests", { "label": "GET Requests/hora" }]
+            ["AWS/S3", "GetRequests", { "label" : "GET Requests/hora" }]
           ]
           period = 3600
           stat   = "Sum"
@@ -338,7 +338,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
 
         properties = {
           metrics = [
-            ["AWS/EC2", "NetworkOut", { "label": "Network Out" }]
+            ["AWS/EC2", "NetworkOut", { "label" : "Network Out" }]
           ]
           period = 3600
           stat   = "Sum"

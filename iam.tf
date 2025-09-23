@@ -10,7 +10,7 @@ resource "aws_iam_policy" "cloudwatch_dashboard_minimal" {
         Effect = "Allow"
         Action = [
           "cloudwatch:PutDashboard",
-          "cloudwatch:GetDashboard", 
+          "cloudwatch:GetDashboard",
           "cloudwatch:DeleteDashboards",
           "cloudwatch:ListDashboards"
         ]
