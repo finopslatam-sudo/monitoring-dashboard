@@ -1,4 +1,3 @@
-# iam.tf - Roles y Policies con permisos mínimos
 resource "aws_iam_policy" "cloudwatch_dashboard_minimal" {
   name        = "CloudWatchDashboardMinimalPolicy"
   description = "Permisos mínimos para crear dashboards de CloudWatch"
