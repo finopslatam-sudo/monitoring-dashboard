@@ -16,7 +16,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== CONSUMO S3 (GRATIS) ==================
+      # ==================== CONSUMO S3 ==================
       {
         type   = "metric"
         x      = 0
@@ -47,7 +47,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== OPERACIONES S3 (GRATIS) ==================
+      # ==================== OPERACIONES S3 ==================
       {
         type   = "metric"
         x      = 12
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== UTILIZACIÓN EC2 (GRATIS) ==================
+      # ==================== UTILIZACIÓN EC2 ==================
       {
         type   = "metric"
         x      = 0
@@ -83,7 +83,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
             ["AWS/EC2", "NetworkIn", { "label": "Network In", "yAxis": "right" }],
             ["AWS/EC2", "NetworkOut", { "label": "Network Out", "yAxis": "right" }]
           ]
-          period = 300  # 5 minutos - estándar gratis
+          period = 300  # 5 minutos - estándar
           stat   = "Average"
           region = "us-east-1"
           title  = "⚡ EC2 - Métricas de Performance"
@@ -102,7 +102,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== DISCO EC2 (GRATIS) ====================
+      # ==================== DISCO EC2 ====================
       {
         type   = "metric"
         x      = 12
@@ -115,7 +115,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
             ["AWS/EC2", "DiskReadBytes", { "label": "Disk Read" }],
             ["AWS/EC2", "DiskWriteBytes", { "label": "Disk Write" }]
           ]
-          period = 300  # 5 minutos - gratis
+          period = 300  # 5 minutos
           stat   = "Average"
           region = "us-east-1"
           title  = "💾 EC2 - Actividad de Disco"
@@ -124,7 +124,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== UTILIZACIÓN EMR (GRATIS) ====================
+      # ==================== UTILIZACIÓN EMR ====================
       {
         type   = "metric"
         x      = 0
@@ -156,7 +156,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== ESTADO EMR (GRATIS) ====================
+      # ==================== ESTADO EMR ====================
       {
         type   = "metric"
         x      = 8
@@ -178,7 +178,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== RESUMEN S3 (GRATIS) ====================
+      # ==================== RESUMEN S3 ====================
       {
         type   = "metric"
         x      = 16
@@ -207,7 +207,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== PANEL OPTIMIZACIÓN GRATIS ====================
+      # ==================== PANEL OPTIMIZACIÓN ====================
       {
         type   = "text"
         x      = 0
@@ -233,7 +233,7 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
         }
       },
 
-      # ==================== SINGLE VALUE METRICS (GRATIS) ====================
+      # ==================== SINGLE VALUE METRICS ====================
       {
         type   = "metric"
         x      = 0
