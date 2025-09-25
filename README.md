@@ -1,12 +1,6 @@
 🎯 Descripción del Proyecto
 Dashboard de CloudWatch creado con Terraform para monitorear costos y performance de servicios AWS en tiempo real, utilizando exclusivamente recursos gratuitos del Free Tier. Infrastructure as Code completamente funcional y optimizado para máxima visibilidad con costo $0.
 
-Autor
-Richard Chamorro
-finopslatam@gmail.com
-Especialista en Gestión de Finanzas en la Nube AWS
-FinOps Latam
-
 🚀 Lo que Logramos
 Objetivos Cumplidos:
 ✅ Dashboard completo de CloudWatch con 15+ widgets integrados
@@ -86,3 +80,9 @@ Métricas Estándar AWS - EC2, S3, Lambda (siempre gratuitas)
 5GB S3 Standard Storage - Configuración Terraform
 750 horas EC2 t3.micro - Instancia de demostración
 1M invocaciones Lambda/mes - Funciones de automatización
+
+Autor
+Richard Chamorro
+finopslatam@gmail.com
+Especialista en Gestión de Finanzas en la Nube AWS
+FinOps Latam
