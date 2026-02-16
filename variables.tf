@@ -36,3 +36,8 @@ variable "aws_account_id" {
   type        = string
   sensitive   = true
 }
+
+variable "finops_external_id" {
+  description = "External ID usado por FinOpsLatam SaaS"
+  type        = string
+}
