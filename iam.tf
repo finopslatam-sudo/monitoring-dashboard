@@ -60,36 +60,61 @@ resource "aws_iam_role_policy_attachment" "dashboard_policy_attach" {
 }
 
 # =====================================================
-# POLICY - FINOPS READONLY
+# POLICY - FINOPS READONLY (CORREGIDA Y EXPANDIDA)
 # =====================================================
 
 resource "aws_iam_policy" "finops_readonly_policy" {
   name        = "FinOpsLatamReadOnlyPolicy"
-  description = "Permisos mínimos para análisis FinOps"
+  description = "Permisos read-only seguros para análisis FinOps y Cost Explorer"
   path        = "/"
 
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
 
+      # =========================
+      # COST EXPLORER
+      # =========================
       {
         Effect = "Allow"
         Action = [
           "ce:GetCostAndUsage",
-          "ce:GetCostForecast"
+          "ce:GetCostForecast",
+          "ce:GetDimensionValues"
         ]
         Resource = "*"
       },
 
+      # =========================
+      # EC2 READ ONLY
+      # =========================
       {
         Effect = "Allow"
         Action = [
           "ec2:DescribeInstances",
-          "ec2:DescribeVolumes"
+          "ec2:DescribeVolumes",
+          "ec2:DescribeSnapshots",
+          "ec2:DescribeAddresses",
+          "ec2:DescribeImages",
+          "ec2:DescribeSecurityGroups"
         ]
         Resource = "*"
       },
 
+      # =========================
+      # ELB READ ONLY
+      # =========================
+      {
+        Effect = "Allow"
+        Action = [
+          "elasticloadbalancing:DescribeLoadBalancers"
+        ]
+        Resource = "*"
+      },
+
+      # =========================
+      # S3 READ ONLY
+      # =========================
       {
         Effect = "Allow"
         Action = [
@@ -99,12 +124,26 @@ resource "aws_iam_policy" "finops_readonly_policy" {
         Resource = "*"
       },
 
+      # =========================
+      # CLOUDWATCH READ ONLY
+      # =========================
       {
         Effect = "Allow"
         Action = [
           "cloudwatch:GetMetricData",
           "cloudwatch:GetMetricStatistics",
           "cloudwatch:ListMetrics"
+        ]
+        Resource = "*"
+      },
+
+      # =========================
+      # STS SAFE CHECK
+      # =========================
+      {
+        Effect = "Allow"
+        Action = [
+          "sts:GetCallerIdentity"
         ]
         Resource = "*"
       }
@@ -126,7 +165,7 @@ resource "aws_iam_role" "finops_saas_role" {
       {
         Effect = "Allow"
         Principal = {
-          AWS = "*" # protegido por External ID
+          AWS = "arn:aws:iam::383704034225:root"
         }
         Action = "sts:AssumeRole"
         Condition = {
