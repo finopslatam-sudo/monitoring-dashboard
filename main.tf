@@ -187,3 +187,95 @@ resource "aws_cloudwatch_dashboard" "cost_dashboard" {
     ]
   })
 }
+# =====================================================
+# IAM ROLE - LAMBDA EXECUTION
+# =====================================================
+
+resource "aws_iam_role" "lambda_exec_role" {
+  name = "finops-demo-lambda-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "lambda.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_basic_attach" {
+  role       = aws_iam_role.lambda_exec_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+# =====================================================
+# LAMBDA FUNCTION (MINIMAL)
+# =====================================================
+
+resource "aws_lambda_function" "demo_lambda" {
+  function_name = "finops-demo-lambda"
+  role          = aws_iam_role.lambda_exec_role.arn
+  handler       = "index.handler"
+  runtime       = "python3.10"
+
+  filename         = "lambda.zip"
+  source_code_hash = filebase64sha256("lambda.zip")
+
+  tags = {
+    Environment = "finops-demo"
+  }
+}
+
+# =====================================================
+# DYNAMODB TABLE
+# =====================================================
+
+resource "aws_dynamodb_table" "demo_table" {
+  name         = "finops-demo-table"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  }
+
+  tags = {
+    Environment = "finops-demo"
+  }
+}
+
+# =====================================================
+# RDS INSTANCE (FREE TIER)
+# =====================================================
+
+resource "aws_db_instance" "demo_rds" {
+  identifier              = "finops-demo-db"
+  engine                  = "mysql"
+  instance_class          = "db.t3.micro"
+  allocated_storage       = 20
+  username                = "adminuser"
+  password                = "FinopsDemo123!"
+  skip_final_snapshot     = true
+  publicly_accessible     = false
+  multi_az                = false
+  storage_encrypted       = false
+  backup_retention_period = 0
+
+  tags = {
+    Environment = "finops-demo"
+  }
+}
+
+resource "aws_cloudwatch_log_group" "demo_log_group" {
+  name              = "/finops/demo/logs"
+  retention_in_days = 3
+
+  tags = {
+    Environment = "finops-demo"
+  }
+}
+
